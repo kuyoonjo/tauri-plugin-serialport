@@ -1,8 +1,4 @@
 import { UnlistenFn } from '@tauri-apps/api/event';
-export interface InvokeResult {
-    code: number;
-    message: string;
-}
 export interface ReadDataResult {
     size: number;
     data: number[];

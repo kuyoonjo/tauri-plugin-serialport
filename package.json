@@ -3,20 +3,26 @@
   "version": "0.0.9",
   "author": "lzhida <zhidal@qq.com>",
   "description": "A tauri plugin developed based on Serialport.",
-  "browser": "webview-dist/index.js",
+  "type": "module",
+  "files": [
+    "webview-dist"
+  ],
+  "browser": "webview-dist/index.umd.js",
   "main": "webview-dist/index.js",
   "types": "webview-dist/index.d.ts",
+  "exports": {
+    "types": "./webview-dist/index.d.ts",
+    "import": "./webview-dist/index.js",
+    "require": "./webview-dist/index.umd.cjs"
+  },
   "scripts": {
-    "build": "rollup -c ./webview-src/rollup.config.js",
-    "prepublishOnly": "yarn build",
-    "pretest": "yarn build"
+    "build": "vite build && tsc --project tsconfig.build.json",
+    "prepublishOnly": "pnpm build",
+    "pretest": "pnpm build"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "13.3.0",
-    "@rollup/plugin-typescript": "8.3.3",
-    "rollup": "2.75.6",
-    "rollup-plugin-terser": "7.0.2",
-    "typescript": "4.7.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.0.0",
