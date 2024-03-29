@@ -40,34 +40,34 @@ declare class Serialport {
     constructor(options: SerialportOptions);
     /**
      * @description: 获取串口列表
-     * @return {Promise<string[]>}
+     * @return
      */
     static available_ports(): Promise<string[]>;
     /**
      * @description: 强制关闭
      * @param {string} path
-     * @return {Promise<void>}
+     * @return
      */
     static forceClose(path: string): Promise<void>;
     /**
      * @description: 关闭所有串口
-     * @return {Promise<void>}
+     * @return
      */
     static closeAll(): Promise<void>;
     /**
      * @description: 取消串口监听
-     * @return {Promise<void>}
+     * @return
      */
     cancelListen(): Promise<void>;
     /**
      * @description: 取消读取数据
-     * @return {Promise<void>}
+     * @return
      */
     cancelRead(): Promise<void>;
     /**
      * @description:
      * @param {object} options
-     * @return {Promise<void>}
+     * @return
      */
     change(options: {
         path?: string;
@@ -75,48 +75,48 @@ declare class Serialport {
     }): Promise<void>;
     /**
      * @description: 关闭串口
-     * @return {Promise<InvokeResult>}
+     * @return
      */
     close(): Promise<void>;
     /**
      * @description: 监听串口信息
      * @param {function} fn
-     * @return {Promise<void>}
+     * @return
      */
     listen(fn: (...args: any[]) => void, isDecode?: boolean): Promise<void>;
     /**
      * @description: 打开串口
-     * @return {*}
+     * @return
      */
     open(): Promise<void>;
     /**
      * @description: 读取串口信息
      * @param {ReadOptions} options 读取选项 { timeout, size }
-     * @return {Promise<void>}
+     * @return
      */
     read(options?: ReadOptions): Promise<void>;
     /**
      * @description: 设置串口 波特率
      * @param {number} value
-     * @return {Promise<void>}
+     * @return
      */
     setBaudRate(value: number): Promise<void>;
     /**
      * @description: 设置串口 path
      * @param {string} value
-     * @return {Promise<void>}
+     * @return
      */
     setPath(value: string): Promise<void>;
     /**
      * @description: 串口写入数据
      * @param {string} value
-     * @return {Promise<number>}
+     * @return
      */
     write(value: string): Promise<number>;
     /**
      * @description: 写入二进制数据到串口
      * @param {Uint8Array} value
-     * @return {Promise<number>}
+     * @return
      */
     writeBinary(value: Uint8Array | number[]): Promise<number>;
 }

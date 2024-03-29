@@ -283,7 +283,7 @@ pub fn read<R: Runtime>(
                                     },
                                 ) {
                                     Ok(_) => {}
-                                    Err(error) => {
+                                    Err(_error) => {
                                         // TODO: 通知窗口发送数据失败
                                     }
                                 }

@@ -74,22 +74,18 @@ class Serialport {
 
   /**
    * @description: 获取串口列表
-   * @return {Promise<string[]>}
+   * @return
    */
-  static async available_ports(): Promise<string[]> {
-    try {
-      return await invoke<string[]>('plugin:serialport|available_ports');
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  static async available_ports() {
+    return await invoke<string[]>('plugin:serialport|available_ports');
   }
 
   /**
    * @description: 强制关闭
    * @param {string} path
-   * @return {Promise<void>}
+   * @return
    */
-  static async forceClose(path: string): Promise<void> {
+  static async forceClose(path: string) {
     return await invoke<void>('plugin:serialport|force_close', {
       path,
     });
@@ -97,256 +93,204 @@ class Serialport {
 
   /**
    * @description: 关闭所有串口
-   * @return {Promise<void>}
+   * @return
    */
-  static async closeAll(): Promise<void> {
+  static async closeAll() {
     return await invoke<void>('plugin:serialport|close_all');
   }
 
   /**
    * @description: 取消串口监听
-   * @return {Promise<void>}
+   * @return
    */
-  async cancelListen(): Promise<void> {
-    try {
-      if (this.unListen) {
-        this.unListen();
-        this.unListen = undefined;
-      }
-      return;
-    } catch (error) {
-      return Promise.reject('取消串口监听失败: ' + error);
+  async cancelListen() {
+    if (this.unListen) {
+      this.unListen();
+      this.unListen = undefined;
     }
   }
 
   /**
    * @description: 取消读取数据
-   * @return {Promise<void>}
+   * @return
    */
-  async cancelRead(): Promise<void> {
-    try {
-      return await invoke<void>('plugin:serialport|cancel_read', {
-        path: this.options.path,
-      });
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async cancelRead() {
+    return await invoke<void>('plugin:serialport|cancel_read', {
+      path: this.options.path,
+    });
   }
 
   /**
    * @description:
    * @param {object} options
-   * @return {Promise<void>}
+   * @return
    */
-  async change(options: { path?: string; baudRate?: number }): Promise<void> {
-    try {
-      let isOpened = false;
-      if (this.isOpen) {
-        isOpened = true;
-        await this.close();
-      }
-      if (options.path) {
-        this.options.path = options.path;
-      }
-      if (options.baudRate) {
-        this.options.baudRate = options.baudRate;
-      }
-      if (isOpened) {
-        await this.open();
-      }
-      return Promise.resolve();
-    } catch (error) {
-      return Promise.reject(error);
+  async change(options: { path?: string; baudRate?: number }) {
+    let isOpened = false;
+    if (this.isOpen) {
+      isOpened = true;
+      await this.close();
+    }
+    if (options.path) {
+      this.options.path = options.path;
+    }
+    if (options.baudRate) {
+      this.options.baudRate = options.baudRate;
+    }
+    if (isOpened) {
+      await this.open();
     }
   }
 
   /**
    * @description: 关闭串口
-   * @return {Promise<InvokeResult>}
+   * @return
    */
-  async close(): Promise<void> {
-    try {
-      if (!this.isOpen) {
-        return;
-      }
-      await this.cancelRead();
-      const res = await invoke<void>('plugin:serialport|close', {
-        path: this.options.path,
-      });
-
-      await this.cancelListen();
-      this.isOpen = false;
-      return res;
-    } catch (error) {
-      return Promise.reject(error);
+  async close() {
+    if (!this.isOpen) {
+      throw new Error(`${this.options.path} is not opened!`);
     }
+    await this.cancelRead();
+    const res = await invoke<void>('plugin:serialport|close', {
+      path: this.options.path,
+    });
+
+    await this.cancelListen();
+    this.isOpen = false;
+    return res;
   }
 
   /**
    * @description: 监听串口信息
    * @param {function} fn
-   * @return {Promise<void>}
+   * @return
    */
-  async listen(fn: (...args: any[]) => void, isDecode = true): Promise<void> {
-    try {
-      await this.cancelListen();
-      let readEvent = 'plugin-serialport-read-' + this.options.path;
-      this.unListen = await appWindow.listen<ReadDataResult>(
-        readEvent,
-        ({ payload }) => {
-          try {
-            if (isDecode) {
-              const decoder = new TextDecoder(this.encoding);
-              const data = decoder.decode(new Uint8Array(payload.data));
-              fn(data);
-            } else {
-              fn(new Uint8Array(payload.data));
-            }
-          } catch (error) {
-            console.error(error);
+  async listen(fn: (...args: any[]) => void, isDecode = true) {
+    await this.cancelListen();
+    let readEvent = 'plugin-serialport-read-' + this.options.path;
+    this.unListen = await appWindow.listen<ReadDataResult>(
+      readEvent,
+      ({ payload }) => {
+        try {
+          if (isDecode) {
+            const decoder = new TextDecoder(this.encoding);
+            const data = decoder.decode(new Uint8Array(payload.data));
+            fn(data);
+          } else {
+            fn(new Uint8Array(payload.data));
           }
-        },
-      );
-      return;
-    } catch (error) {
-      return Promise.reject('监听串口数据失败: ' + error);
-    }
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    );
   }
 
   /**
    * @description: 打开串口
-   * @return {*}
+   * @return
    */
-  async open(): Promise<void> {
-    try {
-      if (!this.options.path) {
-        return Promise.reject(`path 不能为空!`);
-      }
-      if (!this.options.baudRate) {
-        return Promise.reject(`baudRate 不能为空!`);
-      }
-      if (this.isOpen) {
-        return;
-      }
-      const res = await invoke<void>('plugin:serialport|open', {
-        path: this.options.path,
-        baudRate: this.options.baudRate,
-        dataBits: this.options.dataBits,
-        flowControl: this.options.flowControl,
-        parity: this.options.parity,
-        stopBits: this.options.stopBits,
-        timeout: this.options.timeout,
-      });
-      this.isOpen = true;
-      return Promise.resolve(res);
-    } catch (error) {
-      return Promise.reject(error);
+  async open() {
+    if (!this.options.path) {
+      throw new Error(`path is required!`);
     }
+    if (!this.options.baudRate) {
+      throw new Error(`baudRate is required!`);
+    }
+    if (this.isOpen) {
+      throw new Error(`${this.options.path} is already opened!`);
+    }
+    const res = await invoke<void>('plugin:serialport|open', {
+      path: this.options.path,
+      baudRate: this.options.baudRate,
+      dataBits: this.options.dataBits,
+      flowControl: this.options.flowControl,
+      parity: this.options.parity,
+      stopBits: this.options.stopBits,
+      timeout: this.options.timeout,
+    });
+    this.isOpen = true;
+    return res;
   }
 
   /**
    * @description: 读取串口信息
    * @param {ReadOptions} options 读取选项 { timeout, size }
-   * @return {Promise<void>}
+   * @return
    */
-  async read(options?: ReadOptions): Promise<void> {
-    try {
-      return await invoke<void>('plugin:serialport|read', {
-        path: this.options.path,
-        timeout: options?.timeout || this.options.timeout,
-        size: options?.size || this.size,
-      });
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async read(options?: ReadOptions) {
+    return await invoke<void>('plugin:serialport|read', {
+      path: this.options.path,
+      timeout: options?.timeout || this.options.timeout,
+      size: options?.size || this.size,
+    });
   }
 
   /**
    * @description: 设置串口 波特率
    * @param {number} value
-   * @return {Promise<void>}
+   * @return
    */
-  async setBaudRate(value: number): Promise<void> {
-    try {
-      let isOpened = false;
-      if (this.isOpen) {
-        isOpened = true;
-        await this.close();
-      }
-      this.options.baudRate = value;
-      if (isOpened) {
-        await this.open();
-      }
-      return Promise.resolve();
-    } catch (error) {
-      return Promise.reject(error);
+  async setBaudRate(value: number) {
+    let isOpened = false;
+    if (this.isOpen) {
+      isOpened = true;
+      await this.close();
+    }
+    this.options.baudRate = value;
+    if (isOpened) {
+      await this.open();
     }
   }
 
   /**
    * @description: 设置串口 path
    * @param {string} value
-   * @return {Promise<void>}
+   * @return
    */
-  async setPath(value: string): Promise<void> {
-    try {
-      let isOpened = false;
-      if (this.isOpen) {
-        isOpened = true;
-        await this.close();
-      }
-      this.options.path = value;
-      if (isOpened) {
-        await this.open();
-      }
-      return Promise.resolve();
-    } catch (error) {
-      return Promise.reject(error);
+  async setPath(value: string) {
+    let isOpened = false;
+    if (this.isOpen) {
+      isOpened = true;
+      await this.close();
+    }
+    this.options.path = value;
+    if (isOpened) {
+      await this.open();
     }
   }
 
   /**
    * @description: 串口写入数据
    * @param {string} value
-   * @return {Promise<number>}
+   * @return
    */
-  async write(value: string): Promise<number> {
-    try {
-      if (!this.isOpen) {
-        return Promise.reject(`串口 ${this.options.path} 未打开!`);
-      }
-      return await invoke<number>('plugin:serialport|write', {
-        value,
-        path: this.options.path,
-      });
-    } catch (error) {
-      return Promise.reject(error);
+  async write(value: string) {
+    if (!this.isOpen) {
+      throw new Error(`${this.options.path} is not opened!`);
     }
+    return await invoke<number>('plugin:serialport|write', {
+      value,
+      path: this.options.path,
+    });
   }
 
   /**
    * @description: 写入二进制数据到串口
    * @param {Uint8Array} value
-   * @return {Promise<number>}
+   * @return
    */
-  async writeBinary(value: Uint8Array | number[]): Promise<number> {
-    try {
-      if (!this.isOpen) {
-        return Promise.reject(`串口 ${this.options.path} 未打开!`);
-      }
-      if (value instanceof Uint8Array || value instanceof Array) {
-        return await invoke<number>('plugin:serialport|write_binary', {
-          value: Array.from(value),
-          path: this.options.path,
-        });
-      } else {
-        return Promise.reject(
-          'value 参数类型错误! 期望类型: string, Uint8Array, number[]',
-        );
-      }
-    } catch (error) {
-      return Promise.reject(error);
+  async writeBinary(value: Uint8Array | number[]) {
+    if (!this.isOpen) {
+      throw new Error(`${this.options.path} is not opened!`);
     }
+    if (!(value instanceof Uint8Array || value instanceof Array)) {
+      throw new Error('value 参数类型错误! 期望类型: Uint8Array, number[]');
+    }
+    return await invoke<number>('plugin:serialport|write_binary', {
+      value: Array.from(value),
+      path: this.options.path,
+    });
   }
 }
 
