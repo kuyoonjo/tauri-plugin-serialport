@@ -713,14 +713,9 @@ class k {
     });
     return await this.cancelListen(), this.isOpen = !1, e;
   }
-  /**
-   * @description: 监听串口信息
-   * @param {function} fn
-   * @return
-   */
   async listen(e, t = !0) {
     await this.cancelListen();
-    let i = "plugin-serialport-read-" + this.options.path;
+    const i = "plugin-serialport-read-" + this.options.path.replace(/\./g, "__dot__");
     this.unListen = await g.listen(
       i,
       ({ payload: n }) => {

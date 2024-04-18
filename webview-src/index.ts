@@ -3,6 +3,7 @@ import { invoke } from '@tauri-apps/api/tauri';
 import { appWindow } from '@tauri-apps/api/window';
 
 export interface ReadDataResult {
+  path: string;
   size: number;
   data: number[];
 }
@@ -21,6 +22,7 @@ export interface SerialportOptions {
 }
 
 interface Options {
+  path: string;
   dataBits: 5 | 6 | 7 | 8;
   flowControl: null | 'Software' | 'Hardware';
   parity: null | 'Odd' | 'Even';
@@ -34,12 +36,28 @@ interface ReadOptions {
   size?: number;
 }
 
+export interface SerialportInfo {
+  path: string;
+  info?: {
+    /** Vendor ID */  
+    vid: number;
+    /** Product ID */
+    pid: number;
+    /** Serial number (arbitrary string) */
+    serialNumber?: string;
+    /** Manufacturer (arbitrary string) */
+    manufacturer?: string;
+    /** Product name (arbitrary string) */
+    product?: string;
+  };
+}
+
 class Serialport {
   isOpen: boolean;
-  unListen?: UnlistenFn;
   encoding: string;
-  options: Options;
   size: number;
+  private unListen?: UnlistenFn;
+  private options: Options;
 
   constructor(options: SerialportOptions) {
     const {
@@ -72,7 +90,7 @@ class Serialport {
    * @return
    */
   static async available_ports() {
-    return await invoke<string[]>('plugin:serialport|available_ports');
+    return await invoke<SerialportInfo[]>('plugin:serialport|available_ports');
   }
 
   /**
@@ -160,14 +178,17 @@ class Serialport {
    * @param {function} fn
    * @return
    */
-  async listen(fn: (...args: any[]) => void, isDecode = true) {
+  
+  async listen(fn: (data: string) => void, decodeAsString?: true): Promise<void>;
+  async listen(fn: (data: number[]) => void, decodeAsString: false): Promise<void>;
+  async listen(fn: (data: any) => void, decodeAsString: boolean = true) {
     await this.cancelListen();
-    let readEvent = 'plugin-serialport-read-' + this.options.path;
+    const readEvent = 'plugin-serialport-read-' + this.options.path.replace(/\./g, '__dot__');
     this.unListen = await appWindow.listen<ReadDataResult>(
       readEvent,
       ({ payload }) => {
         try {
-          if (isDecode) {
+          if (decodeAsString) {
             const decoder = new TextDecoder(this.encoding);
             const data = decoder.decode(new Uint8Array(payload.data));
             fn(data);

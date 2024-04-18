@@ -1,7 +1,7 @@
 [package]
-name = "tauri-plugin-serialport"
-version = "0.0.9"
-authors = ["lzhida"]
+name = "tauri-plugin-serialport-v1"
+version = "0.1.0"
+authors = ["lzhida", "kuyoonjo"]
 description = "A tauri plugin developed based on Serialport."
 edition = "2021"
 rust-version = "1.76"

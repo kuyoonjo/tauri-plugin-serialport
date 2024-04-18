@@ -1,6 +1,10 @@
 use crate::error::Error;
 use crate::state::{ReadData, SerialportInfo, SerialportState};
-use serialport5::{DataBits, FlowControl, Parity, SerialPort, StopBits};
+use serde::{Deserialize, Serialize};
+use serialport5::{
+    DataBits, FlowControl, Parity, SerialPort, SerialPortType, StopBits,
+    UsbPortInfo,
+};
 use std::io::{Read, Write};
 use std::sync::mpsc;
 use std::sync::mpsc::{Receiver, Sender, TryRecvError};
@@ -73,9 +77,43 @@ fn get_stop_bits(value: Option<usize>) -> StopBits {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(remote = "UsbPortInfo")]
+#[serde(rename_all = "camelCase")]
+struct UsbPortInfoDef {
+    /// Vendor ID
+    pub vid: u16,
+    /// Product ID
+    pub pid: u16,
+    /// Serial number (arbitrary string)
+    pub serial_number: Option<String>,
+    /// Manufacturer (arbitrary string)
+    pub manufacturer: Option<String>,
+    /// Product name (arbitrary string)
+    pub product: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(remote = "SerialPortType", untagged)]
+enum SerialPortTypeDef {
+    #[serde(with = "UsbPortInfoDef")]
+    UsbPort(UsbPortInfo),
+    PciPort,
+    BluetoothPort,
+    Unknown,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SerialPortInfo {
+    pub path: String,
+    #[serde(with = "SerialPortTypeDef")]
+    pub info: SerialPortType,
+}
+
 /// `available_ports` 获取串口列表
 #[command]
-pub fn available_ports() -> Vec<String> {
+pub fn available_ports() -> Vec<SerialPortInfo> {
     // TODO: 返回串口的详情
     let mut list = match serialport5::available_ports() {
         Ok(list) => list,
@@ -88,9 +126,16 @@ pub fn available_ports() -> Vec<String> {
         name_list.push(i.port_name.clone());
     }
 
-    println!("串口列表: {:?}", &name_list);
+    println!("串口列表: {:#?}", &list);
 
-    name_list
+    let list: Vec<SerialPortInfo> = list
+        .into_iter()
+        .map(|spi| SerialPortInfo {
+            path: spi.port_name,
+            info: spi.port_type,
+        })
+        .collect();
+    list
 }
 
 /// `cacel_read` 取消串口数据读取
@@ -256,7 +301,8 @@ pub fn read<R: Runtime>(
         } else {
             match serialport_info.serialport.try_clone() {
                 Ok(mut serial) => {
-                    let read_event = format!("plugin-serialport-read-{}", &path);
+                    let read_event =
+                        format!("plugin-serialport-read-{}", &path.replace(".", "__dot__"));
                     let (tx, rx): (Sender<usize>, Receiver<usize>) = mpsc::channel();
                     serialport_info.sender = Some(tx);
                     thread::spawn(move || loop {
@@ -316,10 +362,7 @@ pub fn write<R: Runtime>(
         .write(value.as_bytes())
     {
         Ok(size) => Ok(size),
-        Err(error) => Err(Error::String(format!(
-            "write {} error: {}",
-            &path, error
-        ))),
+        Err(error) => Err(Error::String(format!("write {} error: {}", &path, error))),
     })
 }
 
@@ -337,9 +380,6 @@ pub fn write_binary<R: Runtime>(
         .write(&value)
     {
         Ok(size) => Ok(size),
-        Err(error) => Err(Error::String(format!(
-            "write {} error: {}",
-            &path, error
-        ))),
+        Err(error) => Err(Error::String(format!("write {} error: {}", &path, error))),
     })
 }

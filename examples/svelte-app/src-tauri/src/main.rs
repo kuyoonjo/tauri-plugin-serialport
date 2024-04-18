@@ -11,7 +11,7 @@ fn main() {
     } else {
       tauri::Menu::default()
     })
-    .plugin(tauri_plugin_serialport::init())
+    .plugin(tauri_plugin_serialport_v1::init())
     .run(context)
     .expect("failed to run app");
 }

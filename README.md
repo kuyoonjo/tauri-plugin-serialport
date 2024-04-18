@@ -2,67 +2,99 @@
 
 A tauri plugin developed based on Serialport.
 
-## Installation
+# Installation
 
-There are three general methods of installation that we can recommend.
-
-1. Pull sources directly from Github using git tags / revision hashes (most secure, good for developement, shown below)
-2. Git submodule install this repo in your tauri project and then use file protocol to ingest the source
-3. Use crates.io and npm (easiest, and requires you to trust that our publishing pipeline worked)
-
-For more details and usage see the example app. Please note, below in the dependencies you can also lock to a revision/tag in both the `Cargo.toml` and `package.json`
-
-### RUST
+## RUST
 
 `src-tauri/Cargo.toml`
 
 ```toml
-[dependencies.tauri-plugin-serialport]
-git = "https://github.com/lzhida/tauri-plugin-serialport"
-tag = "v0.1.0"
+tauri-plugin-serialport-v1 = "0.1.0"
 ```
 
 Use in `src-tauri/src/main.rs`:
 
 ```RUST
-use tauri_plugin_serialport;
+use tauri_plugin_serialport_v1;
 
 fn main() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_serialport::init())
+        .plugin(tauri_plugin_serialport_v1::init())
         .build()
         .run();
 }
 ```
 
-### WEBVIEW
+## WEBVIEW
 
-`Install from a tagged release`
-
-```
-npm install github:lzhida/tauri-plugin-serialport#v0.1.0
-# or
-yarn add github:lzhida/tauri-plugin-serialport#v0.1.0
-```
-
-`Install from a branch (dev)`
-
-```
-npm install https://github.com/lzhida/tauri-plugin-serialport\#master
-# or
-yarn add https://github.com/lzhida/tauri-plugin-serialport\#master
-```
-
-`package.json`
-
-```json
-  "dependencies": {
-    "tauri-plugin-serialport-api": "github:lzhida/tauri-plugin-serialport#v0.1.0",
-  }
-```
+npm install @kuyoonjo/tauri-plugin-serialport-api@0.1.0
 
 Use within your JS/TS:
 
 ```JS
-import { open } from 'tauri-plugin-serialport-api';
+import { Serialport } from 'tauri-plugin-serialport-api';
+```
+
+# API
+## SerialportInfo
+```ts
+export interface SerialportInfo {
+  path: string;
+  info?: {
+    /** Vendor ID */
+    vid: number;
+    /** Product ID */
+    pid: number;
+    /** Serial number (arbitrary string) */
+    serialNumber?: string;
+    /** Manufacturer (arbitrary string) */
+    manufacturer?: string;
+    /** Product name (arbitrary string) */
+    product?: string;
+  };
+}
+```
+
+## SerialportOptions
+```ts
+export interface SerialportOptions {
+    path: string;
+    baudRate: number;
+    encoding?: string;
+    dataBits?: 5 | 6 | 7 | 8;
+    flowControl?: null | 'Software' | 'Hardware';
+    parity?: null | 'Odd' | 'Even';
+    stopBits?: 1 | 2;
+    timeout?: number;
+    size?: number;
+    [key: string]: any;
+}
+```
+
+## Serialport
+```ts
+declare class Serialport {
+  isOpen: boolean;
+  encoding: string;
+  size: number;
+  constructor(options: SerialportOptions);
+  static available_ports(): Promise<SerialportInfo[]>;
+  static forceClose(path: string): Promise<void>;
+  static closeAll(): Promise<void>;
+  open(): Promise<void>;
+  close(): Promise<void>;
+  write(value: string): Promise<number>;
+  writeBinary(value: Uint8Array | number[]): Promise<number>;
+  read(options?: ReadOptions): Promise<void>;
+  cancelRead(): Promise<void>;
+  listen(fn: (data: string) => void, decodeAsString?: true): Promise<void>;
+  listen(fn: (data: number[]) => void, decodeAsString: false): Promise<void>;
+  cancelListen(): Promise<void>;
+  setBaudRate(value: number): Promise<void>;
+  setPath(value: string): Promise<void>;
+  change(options: {
+      path?: string;
+      baudRate?: number;
+  }): Promise<void>;
+}
 ```

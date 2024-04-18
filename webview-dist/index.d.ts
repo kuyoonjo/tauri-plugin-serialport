@@ -1,5 +1,5 @@
-import { UnlistenFn } from '@tauri-apps/api/event';
 export interface ReadDataResult {
+    path: string;
     size: number;
     data: number[];
 }
@@ -15,30 +15,37 @@ export interface SerialportOptions {
     size?: number;
     [key: string]: any;
 }
-interface Options {
-    dataBits: 5 | 6 | 7 | 8;
-    flowControl: null | 'Software' | 'Hardware';
-    parity: null | 'Odd' | 'Even';
-    stopBits: 1 | 2;
-    timeout: number;
-    [key: string]: any;
-}
 interface ReadOptions {
     timeout?: number;
     size?: number;
 }
+export interface SerialportInfo {
+    path: string;
+    info?: {
+        /** Vendor ID */
+        vid: number;
+        /** Product ID */
+        pid: number;
+        /** Serial number (arbitrary string) */
+        serialNumber?: string;
+        /** Manufacturer (arbitrary string) */
+        manufacturer?: string;
+        /** Product name (arbitrary string) */
+        product?: string;
+    };
+}
 declare class Serialport {
     isOpen: boolean;
-    unListen?: UnlistenFn;
     encoding: string;
-    options: Options;
     size: number;
+    private unListen?;
+    private options;
     constructor(options: SerialportOptions);
     /**
      * @description: 获取串口列表
      * @return
      */
-    static available_ports(): Promise<string[]>;
+    static available_ports(): Promise<SerialportInfo[]>;
     /**
      * @description: 强制关闭
      * @param {string} path
@@ -79,7 +86,8 @@ declare class Serialport {
      * @param {function} fn
      * @return
      */
-    listen(fn: (...args: any[]) => void, isDecode?: boolean): Promise<void>;
+    listen(fn: (data: string) => void, decodeAsString?: true): Promise<void>;
+    listen(fn: (data: number[]) => void, decodeAsString: false): Promise<void>;
     /**
      * @description: 打开串口
      * @return
