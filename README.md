@@ -90,11 +90,11 @@ declare class Serialport {
   listen(fn: (data: string) => void, decodeAsString?: true): Promise<void>;
   listen(fn: (data: number[]) => void, decodeAsString: false): Promise<void>;
   cancelListen(): Promise<void>;
-  setBaudRate(value: number): Promise<void>;
-  setPath(value: string): Promise<void>;
+  setBaudRate(value: number, maxReopenTries?: number, tryItv?: number): Promise<void>;
+  setPath(value: string, maxReopenTries?: number, tryItv?: number): Promise<void>;
   change(options: {
-      path?: string;
-      baudRate?: number;
-  }): Promise<void>;
+    path?: string;
+    baudRate?: number;
+}, maxReopenTries?: number, tryItv?: number): Promise<void>;
 }
 ```

@@ -39,7 +39,7 @@ interface ReadOptions {
 export interface SerialportInfo {
   path: string;
   info?: {
-    /** Vendor ID */  
+    /** Vendor ID */
     vid: number;
     /** Product ID */
     pid: number;
@@ -57,7 +57,7 @@ class Serialport {
   encoding: string;
   size: number;
   private unListen?: UnlistenFn;
-  private options: Options;
+  options: Options;
 
   constructor(options: SerialportOptions) {
     const {
@@ -133,12 +133,7 @@ class Serialport {
     });
   }
 
-  /**
-   * @description:
-   * @param {object} options
-   * @return
-   */
-  async change(options: { path?: string; baudRate?: number }) {
+  async change(options: { path?: string; baudRate?: number }, maxReopenTries = 3, tryItv = 500) {
     let isOpened = false;
     if (this.isOpen) {
       isOpened = true;
@@ -151,8 +146,25 @@ class Serialport {
       this.options.baudRate = options.baudRate;
     }
     if (isOpened) {
-      await this.open();
+      let tries = maxReopenTries;
+      while (tries) {
+        try {
+          await this.open();
+          return;
+        } catch (e) {
+          tries--;
+          if (!tries) throw e;
+          await new Promise(r => setTimeout(r, tryItv));
+        }
+      }
     }
+  }
+
+  setBaudRate(value: number, maxReopenTries = 3, tryItv = 500) {
+    return this.change({ baudRate: value }, maxReopenTries, tryItv);
+  }
+  setPath(value: string, maxReopenTries = 3, tryItv = 500) {
+    return this.change({ path: value }, maxReopenTries, tryItv);
   }
 
   /**
@@ -160,17 +172,10 @@ class Serialport {
    * @return
    */
   async close() {
-    if (!this.isOpen) {
-      throw new Error(`${this.options.path} is not opened!`);
-    }
     await this.cancelRead();
-    const res = await invoke<void>('plugin:serialport|close', {
-      path: this.options.path,
-    });
-
     await this.cancelListen();
+    await Serialport.forceClose(this.options.path);
     this.isOpen = false;
-    return res;
   }
 
   /**
@@ -178,7 +183,7 @@ class Serialport {
    * @param {function} fn
    * @return
    */
-  
+
   async listen(fn: (data: string) => void, decodeAsString?: true): Promise<void>;
   async listen(fn: (data: number[]) => void, decodeAsString: false): Promise<void>;
   async listen(fn: (data: any) => void, decodeAsString: boolean = true) {
@@ -240,40 +245,6 @@ class Serialport {
       timeout: options?.timeout || this.options.timeout,
       size: options?.size || this.size,
     });
-  }
-
-  /**
-   * @description: 设置串口 波特率
-   * @param {number} value
-   * @return
-   */
-  async setBaudRate(value: number) {
-    let isOpened = false;
-    if (this.isOpen) {
-      isOpened = true;
-      await this.close();
-    }
-    this.options.baudRate = value;
-    if (isOpened) {
-      await this.open();
-    }
-  }
-
-  /**
-   * @description: 设置串口 path
-   * @param {string} value
-   * @return
-   */
-  async setPath(value: string) {
-    let isOpened = false;
-    if (this.isOpen) {
-      isOpened = true;
-      await this.close();
-    }
-    this.options.path = value;
-    if (isOpened) {
-      await this.open();
-    }
   }
 
   /**

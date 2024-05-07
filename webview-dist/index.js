@@ -1,61 +1,61 @@
-var W = function(o, e) {
-  return (W = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(t, i) {
-    t.__proto__ = i;
-  } || function(t, i) {
-    for (var n in i)
-      Object.prototype.hasOwnProperty.call(i, n) && (t[n] = i[n]);
+var P = function(o, e) {
+  return (P = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(t, n) {
+    t.__proto__ = n;
+  } || function(t, n) {
+    for (var i in n)
+      Object.prototype.hasOwnProperty.call(n, i) && (t[i] = n[i]);
   })(o, e);
 };
-function P(o, e) {
+function W(o, e) {
   if (typeof e != "function" && e !== null)
     throw new TypeError("Class extends value " + String(e) + " is not a constructor or null");
   function t() {
     this.constructor = o;
   }
-  W(o, e), o.prototype = e === null ? Object.create(e) : (t.prototype = e.prototype, new t());
+  P(o, e), o.prototype = e === null ? Object.create(e) : (t.prototype = e.prototype, new t());
 }
 var h = function() {
   return (h = Object.assign || function(o) {
-    for (var e, t = 1, i = arguments.length; t < i; t++)
-      for (var n in e = arguments[t])
-        Object.prototype.hasOwnProperty.call(e, n) && (o[n] = e[n]);
+    for (var e, t = 1, n = arguments.length; t < n; t++)
+      for (var i in e = arguments[t])
+        Object.prototype.hasOwnProperty.call(e, i) && (o[i] = e[i]);
     return o;
   }).apply(this, arguments);
 };
-function r(o, e, t, i) {
-  return new (t || (t = Promise))(function(n, s) {
+function r(o, e, t, n) {
+  return new (t || (t = Promise))(function(i, u) {
     function c(p) {
       try {
-        y(i.next(p));
+        y(n.next(p));
       } catch (l) {
-        s(l);
+        u(l);
       }
     }
     function d(p) {
       try {
-        y(i.throw(p));
+        y(n.throw(p));
       } catch (l) {
-        s(l);
+        u(l);
       }
     }
     function y(p) {
       var l;
-      p.done ? n(p.value) : (l = p.value, l instanceof t ? l : new t(function(m) {
+      p.done ? i(p.value) : (l = p.value, l instanceof t ? l : new t(function(m) {
         m(l);
       })).then(c, d);
     }
-    y((i = i.apply(o, e || [])).next());
+    y((n = n.apply(o, e || [])).next());
   });
 }
 function a(o, e) {
-  var t, i, n, s, c = { label: 0, sent: function() {
-    if (1 & n[0])
-      throw n[1];
-    return n[1];
+  var t, n, i, u, c = { label: 0, sent: function() {
+    if (1 & i[0])
+      throw i[1];
+    return i[1];
   }, trys: [], ops: [] };
-  return s = { next: d(0), throw: d(1), return: d(2) }, typeof Symbol == "function" && (s[Symbol.iterator] = function() {
+  return u = { next: d(0), throw: d(1), return: d(2) }, typeof Symbol == "function" && (u[Symbol.iterator] = function() {
     return this;
-  }), s;
+  }), u;
   function d(y) {
     return function(p) {
       return function(l) {
@@ -63,46 +63,46 @@ function a(o, e) {
           throw new TypeError("Generator is already executing.");
         for (; c; )
           try {
-            if (t = 1, i && (n = 2 & l[0] ? i.return : l[0] ? i.throw || ((n = i.return) && n.call(i), 0) : i.next) && !(n = n.call(i, l[1])).done)
-              return n;
-            switch (i = 0, n && (l = [2 & l[0], n.value]), l[0]) {
+            if (t = 1, n && (i = 2 & l[0] ? n.return : l[0] ? n.throw || ((i = n.return) && i.call(n), 0) : n.next) && !(i = i.call(n, l[1])).done)
+              return i;
+            switch (n = 0, i && (l = [2 & l[0], i.value]), l[0]) {
               case 0:
               case 1:
-                n = l;
+                i = l;
                 break;
               case 4:
                 return c.label++, { value: l[1], done: !1 };
               case 5:
-                c.label++, i = l[1], l = [0];
+                c.label++, n = l[1], l = [0];
                 continue;
               case 7:
                 l = c.ops.pop(), c.trys.pop();
                 continue;
               default:
-                if (n = c.trys, !((n = n.length > 0 && n[n.length - 1]) || l[0] !== 6 && l[0] !== 2)) {
+                if (i = c.trys, !((i = i.length > 0 && i[i.length - 1]) || l[0] !== 6 && l[0] !== 2)) {
                   c = 0;
                   continue;
                 }
-                if (l[0] === 3 && (!n || l[1] > n[0] && l[1] < n[3])) {
+                if (l[0] === 3 && (!i || l[1] > i[0] && l[1] < i[3])) {
                   c.label = l[1];
                   break;
                 }
-                if (l[0] === 6 && c.label < n[1]) {
-                  c.label = n[1], n = l;
+                if (l[0] === 6 && c.label < i[1]) {
+                  c.label = i[1], i = l;
                   break;
                 }
-                if (n && c.label < n[2]) {
-                  c.label = n[2], c.ops.push(l);
+                if (i && c.label < i[2]) {
+                  c.label = i[2], c.ops.push(l);
                   break;
                 }
-                n[2] && c.ops.pop(), c.trys.pop();
+                i[2] && c.ops.pop(), c.trys.pop();
                 continue;
             }
             l = e.call(o, c);
           } catch (m) {
-            l = [6, m], i = 0;
+            l = [6, m], n = 0;
           } finally {
-            t = n = 0;
+            t = i = 0;
           }
         if (5 & l[0])
           throw l[1];
@@ -113,26 +113,26 @@ function a(o, e) {
 }
 function v(o, e) {
   e === void 0 && (e = !1);
-  var t = window.crypto.getRandomValues(new Uint32Array(1))[0], i = "_".concat(t);
-  return Object.defineProperty(window, i, { value: function(n) {
-    return e && Reflect.deleteProperty(window, i), o == null ? void 0 : o(n);
+  var t = window.crypto.getRandomValues(new Uint32Array(1))[0], n = "_".concat(t);
+  return Object.defineProperty(window, n, { value: function(i) {
+    return e && Reflect.deleteProperty(window, n), o == null ? void 0 : o(i);
   }, writable: !1, configurable: !0 }), t;
 }
 function f(o, e) {
   return e === void 0 && (e = {}), r(this, void 0, void 0, function() {
     return a(this, function(t) {
-      return [2, new Promise(function(i, n) {
-        var s = v(function(d) {
-          i(d), Reflect.deleteProperty(window, "_".concat(c));
+      return [2, new Promise(function(n, i) {
+        var u = v(function(d) {
+          n(d), Reflect.deleteProperty(window, "_".concat(c));
         }, !0), c = v(function(d) {
-          n(d), Reflect.deleteProperty(window, "_".concat(s));
+          i(d), Reflect.deleteProperty(window, "_".concat(u));
         }, !0);
-        window.__TAURI_IPC__(h({ cmd: o, callback: s, error: c }, e));
+        window.__TAURI_IPC__(h({ cmd: o, callback: u, error: c }, e));
       })];
     });
   });
 }
-function u(o) {
+function s(o) {
   return r(this, void 0, void 0, function() {
     return a(this, function(e) {
       return [2, f("tauri", o)];
@@ -142,31 +142,31 @@ function u(o) {
 function A(o, e) {
   return r(this, void 0, void 0, function() {
     return a(this, function(t) {
-      return [2, u({ __tauriModule: "Event", message: { cmd: "unlisten", event: o, eventId: e } })];
+      return [2, s({ __tauriModule: "Event", message: { cmd: "unlisten", event: o, eventId: e } })];
     });
   });
 }
-function O(o, e, t) {
+function L(o, e, t) {
   return r(this, void 0, void 0, function() {
-    return a(this, function(i) {
-      switch (i.label) {
+    return a(this, function(n) {
+      switch (n.label) {
         case 0:
-          return [4, u({ __tauriModule: "Event", message: { cmd: "emit", event: o, windowLabel: e, payload: typeof t == "string" ? t : JSON.stringify(t) } })];
+          return [4, s({ __tauriModule: "Event", message: { cmd: "emit", event: o, windowLabel: e, payload: typeof t == "string" ? t : JSON.stringify(t) } })];
         case 1:
-          return i.sent(), [2];
+          return n.sent(), [2];
       }
     });
   });
 }
 function x(o, e, t) {
   return r(this, void 0, void 0, function() {
-    var i = this;
-    return a(this, function(n) {
-      return [2, u({ __tauriModule: "Event", message: { cmd: "listen", event: o, windowLabel: e, handler: v(t) } }).then(function(s) {
+    var n = this;
+    return a(this, function(i) {
+      return [2, s({ __tauriModule: "Event", message: { cmd: "listen", event: o, windowLabel: e, handler: v(t) } }).then(function(u) {
         return function() {
-          return r(i, void 0, void 0, function() {
+          return r(n, void 0, void 0, function() {
             return a(this, function(c) {
-              return [2, A(o, s)];
+              return [2, A(o, u)];
             });
           });
         };
@@ -174,36 +174,36 @@ function x(o, e, t) {
     });
   });
 }
-function T(o, e, t) {
+function R(o, e, t) {
   return r(this, void 0, void 0, function() {
-    return a(this, function(i) {
-      return [2, x(o, e, function(n) {
-        t(n), A(o, n.id).catch(function() {
+    return a(this, function(n) {
+      return [2, x(o, e, function(i) {
+        t(i), A(o, i.id).catch(function() {
         });
       })];
     });
   });
 }
-var w, L = function(o, e) {
+var w, C = function(o, e) {
   this.type = "Logical", this.width = o, this.height = e;
 }, _ = function() {
   function o(e, t) {
     this.type = "Physical", this.width = e, this.height = t;
   }
   return o.prototype.toLogical = function(e) {
-    return new L(this.width / e, this.height / e);
+    return new C(this.width / e, this.height / e);
   }, o;
-}(), R = function(o, e) {
+}(), E = function(o, e) {
   this.type = "Logical", this.x = o, this.y = e;
 }, M = function() {
   function o(e, t) {
     this.type = "Physical", this.x = e, this.y = t;
   }
   return o.prototype.toLogical = function(e) {
-    return new R(this.x / e, this.y / e);
+    return new E(this.x / e, this.y / e);
   }, o;
 }();
-function E() {
+function O() {
   return window.__TAURI_METADATA__.__windows.map(function(o) {
     return new b(o.label, { skip: !0 });
   });
@@ -211,360 +211,360 @@ function E() {
 (function(o) {
   o[o.Critical = 1] = "Critical", o[o.Informational = 2] = "Informational";
 })(w || (w = {}));
-var g, z = ["tauri://created", "tauri://error"], C = function() {
+var g, z = ["tauri://created", "tauri://error"], S = function() {
   function o(e) {
     this.label = e, this.listeners = /* @__PURE__ */ Object.create(null);
   }
   return o.prototype.listen = function(e, t) {
     return r(this, void 0, void 0, function() {
-      var i = this;
-      return a(this, function(n) {
+      var n = this;
+      return a(this, function(i) {
         return this._handleTauriEvent(e, t) ? [2, Promise.resolve(function() {
-          var s = i.listeners[e];
-          s.splice(s.indexOf(t), 1);
+          var u = n.listeners[e];
+          u.splice(u.indexOf(t), 1);
         })] : [2, x(e, this.label, t)];
       });
     });
   }, o.prototype.once = function(e, t) {
     return r(this, void 0, void 0, function() {
-      var i = this;
-      return a(this, function(n) {
+      var n = this;
+      return a(this, function(i) {
         return this._handleTauriEvent(e, t) ? [2, Promise.resolve(function() {
-          var s = i.listeners[e];
-          s.splice(s.indexOf(t), 1);
-        })] : [2, T(e, this.label, t)];
+          var u = n.listeners[e];
+          u.splice(u.indexOf(t), 1);
+        })] : [2, R(e, this.label, t)];
       });
     });
   }, o.prototype.emit = function(e, t) {
     return r(this, void 0, void 0, function() {
-      var i, n;
-      return a(this, function(s) {
+      var n, i;
+      return a(this, function(u) {
         if (z.includes(e)) {
-          for (i = 0, n = this.listeners[e] || []; i < n.length; i++)
-            (0, n[i])({ event: e, id: -1, windowLabel: this.label, payload: t });
+          for (n = 0, i = this.listeners[e] || []; n < i.length; n++)
+            (0, i[n])({ event: e, id: -1, windowLabel: this.label, payload: t });
           return [2, Promise.resolve()];
         }
-        return [2, O(e, this.label, t)];
+        return [2, L(e, this.label, t)];
       });
     });
   }, o.prototype._handleTauriEvent = function(e, t) {
     return !!z.includes(e) && (e in this.listeners ? this.listeners[e].push(t) : this.listeners[e] = [t], !0);
   }, o;
-}(), S = function(o) {
+}(), D = function(o) {
   function e() {
     return o !== null && o.apply(this, arguments) || this;
   }
-  return P(e, o), e.prototype.scaleFactor = function() {
+  return W(e, o), e.prototype.scaleFactor = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "scaleFactor" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "scaleFactor" } } } })];
       });
     });
   }, e.prototype.innerPosition = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "innerPosition" } } } }).then(function(i) {
-          var n = i.x, s = i.y;
-          return new M(n, s);
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "innerPosition" } } } }).then(function(n) {
+          var i = n.x, u = n.y;
+          return new M(i, u);
         })];
       });
     });
   }, e.prototype.outerPosition = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "outerPosition" } } } }).then(function(i) {
-          var n = i.x, s = i.y;
-          return new M(n, s);
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "outerPosition" } } } }).then(function(n) {
+          var i = n.x, u = n.y;
+          return new M(i, u);
         })];
       });
     });
   }, e.prototype.innerSize = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "innerSize" } } } }).then(function(i) {
-          var n = i.width, s = i.height;
-          return new _(n, s);
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "innerSize" } } } }).then(function(n) {
+          var i = n.width, u = n.height;
+          return new _(i, u);
         })];
       });
     });
   }, e.prototype.outerSize = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "outerSize" } } } }).then(function(i) {
-          var n = i.width, s = i.height;
-          return new _(n, s);
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "outerSize" } } } }).then(function(n) {
+          var i = n.width, u = n.height;
+          return new _(i, u);
         })];
       });
     });
   }, e.prototype.isFullscreen = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isFullscreen" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isFullscreen" } } } })];
       });
     });
   }, e.prototype.isMaximized = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isMaximized" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isMaximized" } } } })];
       });
     });
   }, e.prototype.isDecorated = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isDecorated" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isDecorated" } } } })];
       });
     });
   }, e.prototype.isResizable = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isResizable" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isResizable" } } } })];
       });
     });
   }, e.prototype.isVisible = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isVisible" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "isVisible" } } } })];
       });
     });
   }, e.prototype.theme = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "theme" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "theme" } } } })];
       });
     });
   }, e.prototype.center = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "center" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "center" } } } })];
       });
     });
   }, e.prototype.requestUserAttention = function(t) {
     return r(this, void 0, void 0, function() {
-      var i;
-      return a(this, function(n) {
-        return i = null, t && (i = t === w.Critical ? { type: "Critical" } : { type: "Informational" }), [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "requestUserAttention", payload: i } } } })];
+      var n;
+      return a(this, function(i) {
+        return n = null, t && (n = t === w.Critical ? { type: "Critical" } : { type: "Informational" }), [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "requestUserAttention", payload: n } } } })];
       });
     });
   }, e.prototype.setResizable = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setResizable", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setResizable", payload: t } } } })];
       });
     });
   }, e.prototype.setTitle = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setTitle", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setTitle", payload: t } } } })];
       });
     });
   }, e.prototype.maximize = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "maximize" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "maximize" } } } })];
       });
     });
   }, e.prototype.unmaximize = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "unmaximize" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "unmaximize" } } } })];
       });
     });
   }, e.prototype.toggleMaximize = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "toggleMaximize" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "toggleMaximize" } } } })];
       });
     });
   }, e.prototype.minimize = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "minimize" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "minimize" } } } })];
       });
     });
   }, e.prototype.unminimize = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "unminimize" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "unminimize" } } } })];
       });
     });
   }, e.prototype.show = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "show" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "show" } } } })];
       });
     });
   }, e.prototype.hide = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "hide" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "hide" } } } })];
       });
     });
   }, e.prototype.close = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "close" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "close" } } } })];
       });
     });
   }, e.prototype.setDecorations = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setDecorations", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setDecorations", payload: t } } } })];
       });
     });
   }, e.prototype.setAlwaysOnTop = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setAlwaysOnTop", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setAlwaysOnTop", payload: t } } } })];
       });
     });
   }, e.prototype.setSize = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         if (!t || t.type !== "Logical" && t.type !== "Physical")
           throw new Error("the `size` argument must be either a LogicalSize or a PhysicalSize instance");
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setSize", payload: { type: t.type, data: { width: t.width, height: t.height } } } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setSize", payload: { type: t.type, data: { width: t.width, height: t.height } } } } } })];
       });
     });
   }, e.prototype.setMinSize = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         if (t && t.type !== "Logical" && t.type !== "Physical")
           throw new Error("the `size` argument must be either a LogicalSize or a PhysicalSize instance");
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setMinSize", payload: t ? { type: t.type, data: { width: t.width, height: t.height } } : null } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setMinSize", payload: t ? { type: t.type, data: { width: t.width, height: t.height } } : null } } } })];
       });
     });
   }, e.prototype.setMaxSize = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         if (t && t.type !== "Logical" && t.type !== "Physical")
           throw new Error("the `size` argument must be either a LogicalSize or a PhysicalSize instance");
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setMaxSize", payload: t ? { type: t.type, data: { width: t.width, height: t.height } } : null } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setMaxSize", payload: t ? { type: t.type, data: { width: t.width, height: t.height } } : null } } } })];
       });
     });
   }, e.prototype.setPosition = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         if (!t || t.type !== "Logical" && t.type !== "Physical")
           throw new Error("the `position` argument must be either a LogicalPosition or a PhysicalPosition instance");
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setPosition", payload: { type: t.type, data: { x: t.x, y: t.y } } } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setPosition", payload: { type: t.type, data: { x: t.x, y: t.y } } } } } })];
       });
     });
   }, e.prototype.setFullscreen = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setFullscreen", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setFullscreen", payload: t } } } })];
       });
     });
   }, e.prototype.setFocus = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setFocus" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setFocus" } } } })];
       });
     });
   }, e.prototype.setIcon = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setIcon", payload: { icon: typeof t == "string" ? t : Array.from(t) } } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setIcon", payload: { icon: typeof t == "string" ? t : Array.from(t) } } } } })];
       });
     });
   }, e.prototype.setSkipTaskbar = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setSkipTaskbar", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setSkipTaskbar", payload: t } } } })];
       });
     });
   }, e.prototype.setCursorGrab = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorGrab", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorGrab", payload: t } } } })];
       });
     });
   }, e.prototype.setCursorVisible = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorVisible", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorVisible", payload: t } } } })];
       });
     });
   }, e.prototype.setCursorIcon = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorIcon", payload: t } } } })];
+      return a(this, function(n) {
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorIcon", payload: t } } } })];
       });
     });
   }, e.prototype.setCursorPosition = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         if (!t || t.type !== "Logical" && t.type !== "Physical")
           throw new Error("the `position` argument must be either a LogicalPosition or a PhysicalPosition instance");
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorPosition", payload: { type: t.type, data: { x: t.x, y: t.y } } } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "setCursorPosition", payload: { type: t.type, data: { x: t.x, y: t.y } } } } } })];
       });
     });
   }, e.prototype.startDragging = function() {
     return r(this, void 0, void 0, function() {
       return a(this, function(t) {
-        return [2, u({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "startDragging" } } } })];
+        return [2, s({ __tauriModule: "Window", message: { cmd: "manage", data: { label: this.label, cmd: { type: "startDragging" } } } })];
       });
     });
   }, e.prototype.onResized = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         return [2, this.listen("tauri://resize", t)];
       });
     });
   }, e.prototype.onMoved = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         return [2, this.listen("tauri://move", t)];
       });
     });
   }, e.prototype.onCloseRequested = function(t) {
     return r(this, void 0, void 0, function() {
-      var i = this;
-      return a(this, function(n) {
-        return [2, this.listen("tauri://close-requested", function(s) {
-          var c = new D(s);
+      var n = this;
+      return a(this, function(i) {
+        return [2, this.listen("tauri://close-requested", function(u) {
+          var c = new k(u);
           Promise.resolve(t(c)).then(function() {
             if (!c.isPreventDefault())
-              return i.close();
+              return n.close();
           });
         })];
       });
     });
   }, e.prototype.onFocusChanged = function(t) {
     return r(this, void 0, void 0, function() {
-      var i, n;
-      return a(this, function(s) {
-        switch (s.label) {
+      var n, i;
+      return a(this, function(u) {
+        switch (u.label) {
           case 0:
             return [4, this.listen("tauri://focus", function(c) {
               t(h(h({}, c), { payload: !0 }));
             })];
           case 1:
-            return i = s.sent(), [4, this.listen("tauri://blur", function(c) {
+            return n = u.sent(), [4, this.listen("tauri://blur", function(c) {
               t(h(h({}, c), { payload: !1 }));
             })];
           case 2:
-            return n = s.sent(), [2, function() {
-              i(), n();
+            return i = u.sent(), [2, function() {
+              n(), i();
             }];
         }
       });
     });
   }, e.prototype.onScaleChanged = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         return [2, this.listen("tauri://scale-change", t)];
       });
     });
   }, e.prototype.onMenuClicked = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         return [2, this.listen("tauri://menu", t)];
       });
     });
   }, e.prototype.onFileDropEvent = function(t) {
     return r(this, void 0, void 0, function() {
-      var i, n, s;
+      var n, i, u;
       return a(this, function(c) {
         switch (c.label) {
           case 0:
@@ -572,28 +572,28 @@ var g, z = ["tauri://created", "tauri://error"], C = function() {
               t(h(h({}, d), { payload: { type: "drop", paths: d.payload } }));
             })];
           case 1:
-            return i = c.sent(), [4, this.listen("tauri://file-drop-hover", function(d) {
+            return n = c.sent(), [4, this.listen("tauri://file-drop-hover", function(d) {
               t(h(h({}, d), { payload: { type: "hover", paths: d.payload } }));
             })];
           case 2:
-            return n = c.sent(), [4, this.listen("tauri://file-drop-cancelled", function(d) {
+            return i = c.sent(), [4, this.listen("tauri://file-drop-cancelled", function(d) {
               t(h(h({}, d), { payload: { type: "cancel" } }));
             })];
           case 3:
-            return s = c.sent(), [2, function() {
-              i(), n(), s();
+            return u = c.sent(), [2, function() {
+              n(), i(), u();
             }];
         }
       });
     });
   }, e.prototype.onThemeChanged = function(t) {
     return r(this, void 0, void 0, function() {
-      return a(this, function(i) {
+      return a(this, function(n) {
         return [2, this.listen("tauri://theme-changed", t)];
       });
     });
   }, e;
-}(C), D = function() {
+}(S), k = function() {
   function o(e) {
     this._preventDefault = !1, this.event = e.event, this.windowLabel = e.windowLabel, this.id = e.id;
   }
@@ -603,38 +603,38 @@ var g, z = ["tauri://created", "tauri://error"], C = function() {
     return this._preventDefault;
   }, o;
 }(), b = function(o) {
-  function e(t, i) {
-    i === void 0 && (i = {});
-    var n = o.call(this, t) || this;
-    return i != null && i.skip || u({ __tauriModule: "Window", message: { cmd: "createWebview", data: { options: h({ label: t }, i) } } }).then(function() {
-      return r(n, void 0, void 0, function() {
-        return a(this, function(s) {
+  function e(t, n) {
+    n === void 0 && (n = {});
+    var i = o.call(this, t) || this;
+    return n != null && n.skip || s({ __tauriModule: "Window", message: { cmd: "createWebview", data: { options: h({ label: t }, n) } } }).then(function() {
+      return r(i, void 0, void 0, function() {
+        return a(this, function(u) {
           return [2, this.emit("tauri://created")];
         });
       });
-    }).catch(function(s) {
-      return r(n, void 0, void 0, function() {
+    }).catch(function(u) {
+      return r(i, void 0, void 0, function() {
         return a(this, function(c) {
-          return [2, this.emit("tauri://error", s)];
+          return [2, this.emit("tauri://error", u)];
         });
       });
-    }), n;
+    }), i;
   }
-  return P(e, o), e.getByLabel = function(t) {
-    return E().some(function(i) {
-      return i.label === t;
+  return W(e, o), e.getByLabel = function(t) {
+    return O().some(function(n) {
+      return n.label === t;
     }) ? new e(t, { skip: !0 }) : null;
   }, e;
-}(S);
+}(D);
 "__TAURI_METADATA__" in window ? g = new b(window.__TAURI_METADATA__.__currentWindow.label, { skip: !0 }) : (console.warn(`Could not find "window.__TAURI_METADATA__". The "appWindow" value will reference the "main" window label.
 Note that this is not an issue if running this frontend on a browser instead of a Tauri window.`), g = new b("main", { skip: !0 }));
-class k {
+class T {
   constructor(e) {
     const {
       encoding: t = "utf-8",
-      path: i,
-      baudRate: n,
-      dataBits: s = 8,
+      path: n,
+      baudRate: i,
+      dataBits: u = 8,
       flowControl: c,
       parity: d,
       stopBits: y = 2,
@@ -642,9 +642,9 @@ class k {
       size: l = 1024
     } = e;
     this.isOpen = !1, this.encoding = t, this.options = {
-      path: i,
-      baudRate: n,
-      dataBits: s,
+      path: n,
+      baudRate: i,
+      dataBits: u,
       flowControl: c || null,
       parity: d || null,
       stopBits: y,
@@ -691,42 +691,48 @@ class k {
       path: this.options.path
     });
   }
-  /**
-   * @description:
-   * @param {object} options
-   * @return
-   */
-  async change(e) {
-    let t = !1;
-    this.isOpen && (t = !0, await this.close()), e.path && (this.options.path = e.path), e.baudRate && (this.options.baudRate = e.baudRate), t && await this.open();
+  async change(e, t = 3, n = 500) {
+    let i = !1;
+    if (this.isOpen && (i = !0, await this.close()), e.path && (this.options.path = e.path), e.baudRate && (this.options.baudRate = e.baudRate), i) {
+      let u = t;
+      for (; u; )
+        try {
+          await this.open();
+          return;
+        } catch (c) {
+          if (u--, !u)
+            throw c;
+          await new Promise((d) => setTimeout(d, n));
+        }
+    }
+  }
+  setBaudRate(e, t = 3, n = 500) {
+    return this.change({ baudRate: e }, t, n);
+  }
+  setPath(e, t = 3, n = 500) {
+    return this.change({ path: e }, t, n);
   }
   /**
    * @description: 关闭串口
    * @return
    */
   async close() {
-    if (!this.isOpen)
-      throw new Error(`${this.options.path} is not opened!`);
-    await this.cancelRead();
-    const e = await f("plugin:serialport|close", {
-      path: this.options.path
-    });
-    return await this.cancelListen(), this.isOpen = !1, e;
+    await this.cancelRead(), await this.cancelListen(), await T.forceClose(this.options.path), this.isOpen = !1;
   }
   async listen(e, t = !0) {
     await this.cancelListen();
-    const i = "plugin-serialport-read-" + this.options.path.replace(/\./g, "__dot__");
+    const n = "plugin-serialport-read-" + this.options.path.replace(/\./g, "__dot__");
     this.unListen = await g.listen(
-      i,
-      ({ payload: n }) => {
+      n,
+      ({ payload: i }) => {
         try {
           if (t) {
-            const c = new TextDecoder(this.encoding).decode(new Uint8Array(n.data));
+            const c = new TextDecoder(this.encoding).decode(new Uint8Array(i.data));
             e(c);
           } else
-            e(new Uint8Array(n.data));
-        } catch (s) {
-          console.error(s);
+            e(new Uint8Array(i.data));
+        } catch (u) {
+          console.error(u);
         }
       }
     );
@@ -766,24 +772,6 @@ class k {
     });
   }
   /**
-   * @description: 设置串口 波特率
-   * @param {number} value
-   * @return
-   */
-  async setBaudRate(e) {
-    let t = !1;
-    this.isOpen && (t = !0, await this.close()), this.options.baudRate = e, t && await this.open();
-  }
-  /**
-   * @description: 设置串口 path
-   * @param {string} value
-   * @return
-   */
-  async setPath(e) {
-    let t = !1;
-    this.isOpen && (t = !0, await this.close()), this.options.path = e, t && await this.open();
-  }
-  /**
    * @description: 串口写入数据
    * @param {string} value
    * @return
@@ -813,5 +801,5 @@ class k {
   }
 }
 export {
-  k as Serialport
+  T as Serialport
 };

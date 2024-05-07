@@ -15,6 +15,15 @@ export interface SerialportOptions {
     size?: number;
     [key: string]: any;
 }
+interface Options {
+    path: string;
+    dataBits: 5 | 6 | 7 | 8;
+    flowControl: null | 'Software' | 'Hardware';
+    parity: null | 'Odd' | 'Even';
+    stopBits: 1 | 2;
+    timeout: number;
+    [key: string]: any;
+}
 interface ReadOptions {
     timeout?: number;
     size?: number;
@@ -39,7 +48,7 @@ declare class Serialport {
     encoding: string;
     size: number;
     private unListen?;
-    private options;
+    options: Options;
     constructor(options: SerialportOptions);
     /**
      * @description: 获取串口列表
@@ -67,15 +76,12 @@ declare class Serialport {
      * @return
      */
     cancelRead(): Promise<void>;
-    /**
-     * @description:
-     * @param {object} options
-     * @return
-     */
     change(options: {
         path?: string;
         baudRate?: number;
-    }): Promise<void>;
+    }, maxReopenTries?: number, tryItv?: number): Promise<void>;
+    setBaudRate(value: number, maxReopenTries?: number, tryItv?: number): Promise<void>;
+    setPath(value: string, maxReopenTries?: number, tryItv?: number): Promise<void>;
     /**
      * @description: 关闭串口
      * @return
@@ -99,18 +105,6 @@ declare class Serialport {
      * @return
      */
     read(options?: ReadOptions): Promise<void>;
-    /**
-     * @description: 设置串口 波特率
-     * @param {number} value
-     * @return
-     */
-    setBaudRate(value: number): Promise<void>;
-    /**
-     * @description: 设置串口 path
-     * @param {string} value
-     * @return
-     */
-    setPath(value: string): Promise<void>;
     /**
      * @description: 串口写入数据
      * @param {string} value
